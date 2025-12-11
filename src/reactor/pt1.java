@@ -15,7 +15,7 @@ public class pt1 {
             inOut.put(s.split(":")[0], Arrays.asList(s.substring(s.indexOf(":") + 2).split(" ")));
         }
         
-        System.out.println(getConnections(inOut, "svr"));
+        System.out.println(getConnections(inOut, "you"));
     }
 
     public static int getConnections(HashMap<String, List<String>> server, String curKey) {
@@ -30,8 +30,6 @@ public class pt1 {
                 total++;
             }
         }
-
-        System.out.println(curKey);
         
         return total;
     }
