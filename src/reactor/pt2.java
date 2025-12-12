@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class pt2 {
-    public static HashMap<String, Long> memoized = new HashMap<>();
+    public static HashMap<String, List<Object>> memoized = new HashMap<>();
 
     public static void main(String[] args) {
         ArrayList<String> server = fileReader.readFile("src/reactor/serverRack.txt");
@@ -32,21 +32,29 @@ public class pt2 {
             }
             if (!connection.equals("out")) {
                 nextPorts.add(curKey);
-                if (memoized.containsKey(connection)) {
-                    total += memoized.get(connection);
+                String keyContains = (nextPorts.contains("fft") ? "1" : "0") + (nextPorts.contains("dac") ? "1" : "0");
+                if (memoized.containsKey(connection + "_" + keyContains)) {
+                    total += (Long) memoized.get(connection + "_" + keyContains).get(0);
                 } else {
                     total += getConnections(server, connection, nextPorts);
                 }
             } else {
                 nextPorts.add(curKey);
 
-                // if (nextPorts.contains("fft") && nextPorts.contains("dac")) {
+                if (nextPorts.contains("fft") && nextPorts.contains("dac")) {
                     total++;
-                // }
+                }
             }
         }
 
-        memoized.put(curKey, total);
+        List<String> tempPorts = ports;
+        tempPorts.add(curKey);
+
+        String keyContains = (tempPorts.contains("fft") ? "1" : "0") + (tempPorts.contains("dac") ? "1" : "0");
+
+        memoized.put(curKey + "_" + keyContains, Arrays.asList(total));
+
+        // System.out.println(memoized.toString());
 
         // System.out.println(memoized.toString());
 
